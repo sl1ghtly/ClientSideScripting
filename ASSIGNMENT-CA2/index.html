@@ -1,0 +1,204 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <title>Splash Screen</title>
+    <meta charset="utf-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+    <h1><b>Contact Application</b></h1>
+    <p>Made by <b>Eryk Gloginski - L00157413</b></p>
+
+    <!-- from to gather input -->
+    <div class="wrapper">
+        <form action="#" id="form">
+            <!-- title drop down menu -->
+            <label for="title"><b>Title:</b></label><br>
+                <select id="title" name="title">
+                    <option value="mr">Mr.</option>
+                    <option value="ms">Ms.</option>
+                    <option value="mrs">Mrs.</option>
+                    <option value="dr">Dr.</option>
+                    <option value="prof">Prof.</option>
+                </select><br>
+            <!-- username input -->
+            <label for="username"><b>Username:</b></label><br><input type="text" name="username"><br>
+            <!-- telephone number input -->
+            <label for="telnum"><b>Telephone Number:</b></label><br><input type="text" name="telnum"><br>
+            <!-- email input -->
+            <label for="email"><b>Email:</b></label><br><input type="text" name="email"><br>
+            <!-- password input -->
+            <label for="password"><b>Password:</b></label><br><input type="text" name="password"><br>
+            <!-- description input -->
+            <label for="desc"><b>Short Description:</b></label><br><input type="text" name="desc"><br>
+        </form>
+    </div>
+
+    <!-- buttons are here -->
+    <div class="wrapper">
+        <button onclick="add();" class="btn btn-outline-danger">Add</button>
+        <button onclick="del();" class="btn btn-outline-danger">Delete</button>
+        <button onclick="find();" class="btn btn-outline-danger">Find</button>
+        <button onclick="list();" class="btn btn-outline-danger">List All</button>
+        <button onclick="edit();" class="btn btn-outline-danger">Edit</button>
+    </div>
+
+    <div class="wrapper" id="contactlist">
+        <!-- put in contacts here -->
+        <table id="table">
+            <tr>
+                <th>Title</th>
+                <th>Username</th>
+                <th>Phone Number</th>
+                <th>Email</th>
+                <th>Password</th>
+                <th>Short Description</th>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        // start variables: empty currentContact, 
+        // filled contactArray with contact objects, counter
+        var currentContact = {};
+        var contactArray = [
+            { title: "Mr. ", username: "foobar", telnum: 123456789, email: "foobar@gmail.com", password: "password1", description: "Short description 1." },
+            { title: "Mr. ", username: "eryk", telnum: 123456789, email: "eryk@gmail.com", password: "password2", description: "Short description 2." },
+            { title: "Mr. ", username: "david", telnum: 123456789, email: "david@gmail.com", password: "password3", description: "Short description 3." },
+            { title: "Ms. ", username: "jesse", telnum: 123456789, email: "jesse@gmail.com", password: "password4", description: "Short description 4." },
+            { title: "Dr. ", username: "dorian", telnum: 123456789, email: "dorian@gmail.com", password: "password5", description: "Short description 5." }
+        ];
+        var counter = 4;
+        
+        // put in methods here
+
+        // add contact method
+        function add() {
+            // get every single thing needed in the form
+            let t = document.getElementById("title");
+            let title = t.options[t.selectedIndex].text;
+            let username = document.querySelector('input[name=username').value;
+            let telnum = document.querySelector('input[name=telnum').value;
+            let email = document.querySelector('input[name=email').value;
+            let password = document.querySelector('input[name=password').value;
+            let description = document.querySelector('input[name=desc').value;
+            // put all of the variables into the temporary object
+            currentContact = {
+                title: title,
+                username: username,
+                telnum: telnum,
+                email: email,
+                password: password,
+                description: description
+            };
+            // add the object into the contactArray and increment counter
+            contactArray.push(currentContact);
+            counter = counter + 1;
+            // clear the contents of the form
+            document.getElementById("form").reset();
+        }
+
+        // delete contact method
+        function del() {
+            // send prompt to user to enter username
+            let name = prompt("Enter the username to delete the contact:");
+            // delete specified username from contact array
+            for (let i = 0; i < contactArray.length; i++) {
+                // if the name is equals to the contactArray's username
+                if (name == contactArray[i].username) {
+                    let contactIndex = contactArray.indexOf(contactArray[i]);
+                    contactArray.splice(contactIndex, 1)
+                }
+            }
+        }
+
+        // find contact method
+        function find() {
+            // send prompt to user to enter username
+            let name = prompt("Enter the username to find the contact and display it:");
+            // get table node
+            var tableNode = document.getElementById("table");
+            // make sure the table exists
+            tableNode.innerHTML = "<tr><th>Title</th><th>Username</th><th>Phone Number</th><th>Email</th><th>Password</th><th>Short Description</th></tr>";
+            // display specified contact
+            for (let i = 0; i < contactArray.length; i++) {
+                // if the name is equals to the contactArray's username
+                if (name == contactArray[i].username) {
+                    // insert into first usable row
+                    let row = tableNode.insertRow(1);
+                    // insert cells
+                    let titleCell = row.insertCell(0);
+                    let usernameCell = row.insertCell(1);
+                    let telnumCell = row.insertCell(2);
+                    let emailCell = row.insertCell(3);
+                    let passwordCell = row.insertCell(4);
+                    let descCell = row.insertCell(5);
+                    // add text into cells
+                    titleCell.innerHTML = contactArray[i].title;
+                    usernameCell.innerHTML = contactArray[i].username;
+                    telnumCell.innerHTML = contactArray[i].telnum;
+                    emailCell.innerHTML = contactArray[i].email;
+                    passwordCell.innerHTML = contactArray[i].password;
+                    descCell.innerHTML = contactArray[i].description;
+                }
+            }
+        }
+
+        // list all contacts method
+        function list() {
+            // get table node
+            var tableNode = document.getElementById("table");
+            // make sure the table exists
+            tableNode.innerHTML = "<tr><th>Title</th><th>Username</th><th>Phone Number</th><th>Email</th><th>Password</th><th>Short Description</th></tr>";
+            for (let i = 0; i < contactArray.length; i++) {
+                // insert into next row, not to remove first
+                let row = tableNode.insertRow(i + 1);
+                // insert cells
+                let titleCell = row.insertCell(0);
+                let usernameCell = row.insertCell(1);
+                let telnumCell = row.insertCell(2);
+                let emailCell = row.insertCell(3);
+                let passwordCell = row.insertCell(4);
+                let descCell = row.insertCell(5);
+                // add text into cells
+                titleCell.innerHTML = contactArray[i].title;
+                usernameCell.innerHTML = contactArray[i].username;
+                telnumCell.innerHTML = contactArray[i].telnum;
+                emailCell.innerHTML = contactArray[i].email;
+                passwordCell.innerHTML = contactArray[i].password;
+                descCell.innerHTML = contactArray[i].description;
+            }
+        }
+
+        // edit contact method
+        function edit() {
+            // send prompt to user to enter username
+            let name = prompt("Enter the username to find the contact and edit/replace it:");
+            // enter new details
+            let newtitle = prompt("Enter new title: ");
+            let newname = prompt("Enter new username: ");
+            let newtelnum = prompt("Enter new telephone number: ");
+            let newemail = prompt("Enter new email: ");
+            let newpass = prompt("Enter new password: ");
+            let newdesc = prompt("Enter new description: ");
+            // edit specified contact in array
+            for (let i = 0; i < contactArray.length; i++) {
+                // if the name is equals to the contactArray's username
+                if (name == contactArray[i].username) {
+                    // get the index of the contact
+                    let contactIndex = contactArray.indexOf(contactArray[i]);
+                    // replace contact info with new info
+                    contactArray[i].title = newtitle + ".";
+                    contactArray[i].username = newname;
+                    contactArray[i].telnum = newtelnum;
+                    contactArray[i].email = newemail;
+                    contactArray[i].newpass = newpass;
+                    contactArray[i].description = newdesc;
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>

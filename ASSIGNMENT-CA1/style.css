@@ -1,0 +1,36 @@
+body {
+    background-image: url("bg2.jpg");
+    background-color: #9c0e0e;
+}
+h1 {
+    text-align: center;
+    padding-top: 3%;
+    color: white;
+}
+p {
+    text-align: center;
+    padding-top: 1%;
+    color: white;
+}
+a {
+    color: red;
+    text-decoration: none;
+}
+img {
+    width: 100px;
+    height: 150px;
+    margin: 10px;
+    padding: 10px;
+}
+ol {
+    color: white;
+}
+
+.wrapper {
+    padding-top: 1%;
+    text-align: center;
+}
+.button {
+    position: absolute;
+    top: 50%;
+}
